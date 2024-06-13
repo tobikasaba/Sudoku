@@ -12,6 +12,40 @@ def find_next_empty(puzzle):
     return None, None
 
 
+def is_valid(puzzle, guess, row, col):
+    # figures out whether the guess at the row/col of the puzzle is valid
+    # returns True if valid and False if not
+
+    # row
+    row_vals = puzzle[row]
+    if guess in row_vals:
+        return False
+
+    # columns
+    # col_vals = []
+    # for i in range(9):
+    #     col_vals.append((puzzle(i)[col]))
+    col_vals = [puzzle[i][col] for i in range(9)]
+
+    if guess in col_vals:
+        return False
+
+    # the square.
+    # first get where 3x3 square starts.
+    # split the entire board into 3 chunks of 3x3 squares.
+    # iterate over the 3 values in the row/column.
+    row_start = (row//3) *3
+    col_start = (col//3)*3
+
+    # iterate over the 3x3 square selected based on the predetermined starting position
+    for row in range(row_start, row_start+3):
+        for col in range(col_start, col_start+3):
+            if puzzle[row][col]:
+                return False
+
+    # if we get here, the checks pass
+    return True
+
 def solve_sudoku(puzzle):
     # solve sudoku using backtracking technique
     # our puzzle is a list of lists, where each inner list is a row in our sudoku puzzle
@@ -27,4 +61,5 @@ def solve_sudoku(puzzle):
     # step 2: if there is a place to put a number, then make a gues between 1 and 9
     for guess in range(1, 10):
         # step 3: checking ig this is a valid guess
-        pass
+        if is_valid(puzzle, guess, row, col):
+            pass
